@@ -3,13 +3,13 @@ using namespace std;
 main()
 {
 cout<<"imposter count..";
-float ic;
-cin>>ic;
+float impostercount;
+cin>>impostercount;
 cout<<"total players..";
-float tp;
-cin>>tp;
+float totsl players;
+cin>>totsl players;
 float imposter;
-imposter=(ic/tp)*100;
+imposter=(impostercount/totalplayers)*100;
 cout<<"chance of being imposter.."<<imposter;
 
 
