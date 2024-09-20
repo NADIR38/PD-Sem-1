@@ -2,15 +2,18 @@
 using namespace std;
 main()
 {
-cout<<"no of minutes..";
-int minutes;
-cin>>minutes;
-cout<<"enter fps..";
-int frames;
-cin>>frames;
-int fps;
-fps=minutes*frames*60;
-cout<<"frames are.."<<fps;
+cout<<"intial velocity..";
+int Vi;
+cin>>Vi;
+cout<<"final velocity..";
+int Vf;
+cin>>Vf;
+cout<<"time..";
+int time;
+cin>>time;
+int acceleration;
+acceleration=(Vf-Vi)/time;
+cout<<"acceleration is.."<<acceleration;
 
 
 
