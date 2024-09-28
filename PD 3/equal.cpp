@@ -1,7 +1,7 @@
 #include<iostream>
 using namespace std;
-void equal(int,int );
-main()
+void equal(int,int);
+int main()
 {
 cout<<"enter first number..";
 int n1;
@@ -13,16 +13,16 @@ equal(n1,n2);
 
 
 }
-void equal(int ,int )
+void equal(int,int )
 {
 
-int a;
-int b;
-if(a == b)
+int n1;
+int n2;
+if(n1==n2)
 {
 cout<<"true";
 }
-if(a!=b)
+if(n1!=n2)
 {
 cout<<"false";
 
