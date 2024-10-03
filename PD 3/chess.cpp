@@ -16,11 +16,11 @@ void move(int,int)
 {
 int p1;
 int p2;
-if(p2<p1+6)
+if(p2>p1+6)
 {
 cout<<"false";
 } 
-if(p2>p1+6)
+ if(p2<p1+6)
 {
 cout<<"true";
 }
