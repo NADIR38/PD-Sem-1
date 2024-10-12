@@ -5,7 +5,6 @@ void menu();
 void product1();
 void product2();
 void product3();
-void totalcost();
 float quantity,price,tax,net,option,total;
 main()
 {
@@ -27,11 +26,8 @@ if(option==3)
 product3();
 }
 
-if(option==4)
-{
-totalcost();
-}
-}
+
+
 
 
 
@@ -83,18 +79,7 @@ net=(quantity*price)-(price*quantity*tax);
 cout<<"total cost is.."<<endl<<net;
 
 }
-void product3()
-{
-cout<<"product name ..salt"<<endl;
-cout<<"quantity..";
-cin>>quantity;
-cout<<"per unit..";
-cin>>price;
-cout<<"tax..";
-cin>>tax;
-net=(quantity*price)-(price*quantity*tax);
-cout<<"total cost is.."<<net;
-}
+
 
 
 
