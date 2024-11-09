@@ -42,9 +42,12 @@ void printLogin() {
 
     if (username == "user" && password == "123") {
         userMenu();
-    } else if (username == "admin" && password == "321") {
+    } 
+    else if (username == "admin" && password == "321") {
         adminMenu();
-    } else {
+    }  
+    else 
+    {
         cout << "Invalid username or password. Please try again." << endl;
         printLogin(); 
     }
