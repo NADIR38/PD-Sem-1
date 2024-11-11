@@ -1,36 +1,27 @@
-#include <iostream>
+#include<iostream>
 using namespace std;
-
-void addSevenToChords(string chords[], int size) {
-for(int i=0;i<size;i++)
+main()
 {
-    int j=0;
-    while(chords[i][j]!='\0')
-    j++;
+string fruit[4]={"peach", "apple", "guava", "watermelon"};
+int price[4]={60, 70, 40, 3};
+float quantity;
+cout<<"enter quantity..";
+cin>>quantity;
+string name;
+cout<<"enter fruit..";
+cin>>name;
+int final[4]={0,0,0,0};
+bool found=false;
 
-if(chords[i][j-1]!='7')
-chords[i]+='7';
+for(int idx=0;idx<4;idx++)
+{
+    if(fruit[idx]==name)
+    final[idx]=quantity*price[idx];
+ found=true;   
 }
-}
-
-int main() {
-    int size;
-    cout << "Enter the number of chords: ";
-    cin >> size;
-    
-    string chords[size];
-    cout << "Enter the chords: ";
-    for (int i = 0; i < size; i++) {
-        cin >> chords[i];
-    }
-
-    addSevenToChords(chords, size);
-
-    cout << "Chords with 7 added: ";
-    for (int i = 0; i < size; i++) {
-        cout << chords[i] << " ";
-    }
-    cout << endl;
-
-    return 0;
+if(found){
+for(int idx=0;idx<4;idx++){
+if(final[idx]!=0)
+{cout<<final[idx];}}}
+else{cout<<"invalid";}
 }

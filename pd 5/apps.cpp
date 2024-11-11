@@ -1,8 +1,7 @@
 #include <iostream>
-#include<windows.h>
+#include <windows.h>
 #include <string>
 using namespace std;
-
 
 void printLogin();
 void userMenu();
@@ -29,34 +28,33 @@ int main() {
 }
 
 void printHeader() {
-                                 cout << "********************************" << endl;
-                                 cout << "******** Smart Rental Car*******" << endl;
-                                 cout << "********************************" << endl;
-   
+    system("cls");
+    cout << "********************************" << endl;
+    cout << "******** Smart Rental Car*******" << endl;
+    cout << "********************************" << endl;
 }
 
 void printLogin() {
+    system("cls");
     cout << "Enter username: ";
     cin >> username;
     cout << "Enter password: ";
     cin >> password;
 
-    if (username == "user" && password == "123")  
-    {
+    if (username == "user" && password == "123") {
         userMenu();
     } 
-    else if (username == "admin" && password == "321") 
-    {
+    else if (username == "admin" && password == "321") {
         adminMenu();
     }  
-    else 
-    {
+    else {
         cout << "Invalid username or password. Please try again." << endl;
         printLogin(); 
     }
 }
 
 void adminMenu() {
+    system("cls");
     cout << "1. List of cars" << endl;
     cout << "2. Add cars" << endl;
     cout << "3. Delete cars" << endl;
@@ -85,6 +83,7 @@ void adminMenu() {
 }
 
 void userMenu() {
+    system("cls");
     cout << "1. List cars" << endl;
     cout << "2. Calculate total cost" << endl;
     cout << "3. Log out" << endl;
@@ -104,27 +103,28 @@ void userMenu() {
 }
 
 void listofCars() {
+    system("cls");
     cout << "Available cars: " << endl;
     if (carCount == 0) {
         cout << "No cars available." << endl; 
-    }         for (int i = 0; i < carCount; i++) {
+    } else {
+        for (int i = 0; i < carCount; i++) {
             cout << "- " << cars[i] << " (Rate: RS" << rates[i] << "/hour)" << endl;
         }
-
+    }
     cout << "Press 1 to return to admin menu or 2 to return to user menu: ";
     int returnOption;
     cin >> returnOption;
     if (returnOption == 1) {
         adminMenu();
-    }
-    
-     else {
+    } else {
         userMenu();
     }
-    system("cls");
+    
 }
 
 void addCars() {
+    system("cls");
     if (carCount >= maxCars) {
         cout << "Cannot add more cars. Maximum limit reached." << endl;
         adminMenu();
@@ -137,10 +137,10 @@ void addCars() {
     carCount++;
     cout << "Car added successfully!" << endl;
     adminMenu(); 
-
 }
 
 void deleteCars() {
+    system("cls");
     if (carCount == 0) {
         cout << "No cars to delete." << endl;
         adminMenu();
@@ -167,44 +167,37 @@ void deleteCars() {
 }
 
 void updateCarNames() {
-      cout << "Enter the number of the car to update (1-" << carCount << "): ";
+    system("cls");
+    cout << "Enter the number of the car to update (1-" << carCount << "): ";
     int carNumber;
     cin >> carNumber;
 
-
     if (carNumber < 1 || carNumber > carCount) {
-        cout << "Invalid selection. " << endl;
+        cout << "Invalid selection." << endl;
         updateCarNames(); 
         return;
     }
 
-    string newCarName;
     cout << "Enter new car name: ";
-    cin >> cars[carNumber+1];
-    cout<<"car updated succesfully";
+    cin >> cars[carNumber - 1];
+    cout << "Car updated successfully!" << endl;
     adminMenu();
-
-
-
-    adminMenu(); 
 }
 
 void setRates() {
-
-        
-    for(int i=0;i<carCount;i++)
-    {
-        cout<<"enter rate for "<<cars[i]<<"..";
-        cin>>rates[i];
+    system("cls");
+    for (int i = 0; i < carCount; i++) {
+        cout << "Enter rate for " << cars[i] << ": ";
+        cin >> rates[i];
     }
 
     cout << "Rates updated successfully!" << endl;
     adminMenu(); 
 }
 
-void calculateTotalCost() 
-  {
-     if (carCount == 0) {
+void calculateTotalCost() {
+    system("cls");
+    if (carCount == 0) {
         cout << "No cars available for rent." << endl;
         userMenu();
         return;
@@ -214,7 +207,8 @@ void calculateTotalCost()
     int carNumber;
     cin >> carNumber;
 
-    if (carNumber < 1 || carNumber > carCount) {
+    if (carNumber < 1 || carNumber > carCount) 
+    {
         cout << "Invalid selection. Please choose a valid car." << endl;
         calculateTotalCost(); 
         return;
@@ -228,4 +222,3 @@ void calculateTotalCost()
     cout << "Total cost for renting " << cars[carNumber - 1] << " for " << hours << " hours: Rs" << totalCost << endl;
     userMenu(); 
 }
-
