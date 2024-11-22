@@ -13,13 +13,28 @@ void deleteCars();
 void updateCarNames();
 void setRates();
 void calculateTotalCost();
+void viewRentalHistory();
+void displayInvalidInputMessage();
+bool isValidOption(int option, int maxOption);
+bool isValidCarNumber(int carNumber, int maxCarCount);
+bool isValidHours(int hours);
 
 string username, password;
-const int maxCars = 15; 
-string cars[maxCars];   
-float rates[maxCars];   
-int carCount = 0;      
+const int maxCars = 15;
+string cars[maxCars];
+float rates[maxCars];
+int carCount = 0;
 int option, options;
+
+struct RentalRecord {
+    string carName;
+    int hoursRented;
+    float totalCost;
+};
+
+const int maxRentalHistory = 100;
+RentalRecord rentalHistory[maxRentalHistory];
+int rentalHistoryCount = 0;
 
 int main() {
     printHeader();
@@ -28,14 +43,12 @@ int main() {
 }
 
 void printHeader() {
-    system("cls");
     cout << "********************************" << endl;
     cout << "******** Smart Rental Car*******" << endl;
     cout << "********************************" << endl;
 }
 
 void printLogin() {
-    system("cls");
     cout << "Enter username: ";
     cin >> username;
     cout << "Enter password: ";
@@ -43,13 +56,11 @@ void printLogin() {
 
     if (username == "user" && password == "123") {
         userMenu();
-    } 
-    else if (username == "admin" && password == "321") {
+    } else if (username == "admin" && password == "321") {
         adminMenu();
-    }  
-    else {
+    } else {
         cout << "Invalid username or password. Please try again." << endl;
-        printLogin(); 
+        printLogin();
     }
 }
 
@@ -60,9 +71,18 @@ void adminMenu() {
     cout << "3. Delete cars" << endl;
     cout << "4. Update car names" << endl;
     cout << "5. Set rates" << endl;
-    cout << "6. Log out" << endl;
+    cout << "6. View rental history" << endl;
+    cout << "7. Log out" << endl;
     cout << "Enter option: ";
-    cin >> option;
+    while (true) {
+        if (cin >> option && isValidOption(option, 7)) {
+            break;
+        } else {
+            displayInvalidInputMessage();
+            cin.clear(); // clear the error flag
+            cin.ignore(10000, '\n'); // discard invalid input
+        }
+    }
 
     if (option == 1) {
         listofCars();
@@ -75,10 +95,9 @@ void adminMenu() {
     } else if (option == 5) {
         setRates();
     } else if (option == 6) {
+        viewRentalHistory();
+    } else if (option == 7) {
         printLogin();
-    } else {
-        cout << "Invalid option. Please try again." << endl;
-        adminMenu();
     }
 }
 
@@ -86,19 +105,27 @@ void userMenu() {
     system("cls");
     cout << "1. List cars" << endl;
     cout << "2. Calculate total cost" << endl;
-    cout << "3. Log out" << endl;
+    cout << "3. View rental history" << endl;
+    cout << "4. Log out" << endl;
     cout << "Enter option: ";
-    cin >> options;
+    while (true) {
+        if (cin >> options && isValidOption(options, 4)) {
+            break;
+        } else {
+            displayInvalidInputMessage();
+            cin.clear(); // clear the error flag
+            cin.ignore(10000, '\n'); // discard invalid input
+        }
+    }
 
     if (options == 1) {
         listofCars();
     } else if (options == 2) {
         calculateTotalCost();
     } else if (options == 3) {
+        viewRentalHistory();
+    } else if (options == 4) {
         printLogin();
-    } else {
-        cout << "Invalid option. Please try again." << endl;
-        userMenu();
     }
 }
 
@@ -106,7 +133,7 @@ void listofCars() {
     system("cls");
     cout << "Available cars: " << endl;
     if (carCount == 0) {
-        cout << "No cars available." << endl; 
+        cout << "No cars available." << endl;
     } else {
         for (int i = 0; i < carCount; i++) {
             cout << "- " << cars[i] << " (Rate: RS" << rates[i] << "/hour)" << endl;
@@ -114,13 +141,21 @@ void listofCars() {
     }
     cout << "Press 1 to return to admin menu or 2 to return to user menu: ";
     int returnOption;
-    cin >> returnOption;
+    while (true) {
+        if (cin >> returnOption && (returnOption == 1 || returnOption == 2)) {
+            break;
+        } else {
+            displayInvalidInputMessage();
+            cin.clear(); // clear the error flag
+            cin.ignore(10000, '\n'); // discard invalid input
+        }
+    }
+
     if (returnOption == 1) {
         adminMenu();
     } else {
         userMenu();
     }
-    
 }
 
 void addCars() {
@@ -133,10 +168,10 @@ void addCars() {
 
     cout << "Enter car name: ";
     cin >> cars[carCount];
-    rates[carCount] = 0; 
+    rates[carCount] = 0;
     carCount++;
     cout << "Car added successfully!" << endl;
-    adminMenu(); 
+    adminMenu();
 }
 
 void deleteCars() {
@@ -149,12 +184,14 @@ void deleteCars() {
 
     cout << "Enter the number of the car to delete (1-" << carCount << "): ";
     int carNumber;
-    cin >> carNumber;
-
-    if (carNumber < 1 || carNumber > carCount) {
-        cout << "Invalid selection. Please choose a valid car number." << endl;
-        deleteCars(); 
-        return;
+    while (true) {
+        if (cin >> carNumber && isValidCarNumber(carNumber, carCount)) {
+            break;
+        } else {
+            displayInvalidInputMessage();
+            cin.clear();
+            cin.ignore(10000, '\n');
+        }
     }
 
     for (int i = carNumber - 1; i < carCount - 1; i++) {
@@ -163,19 +200,21 @@ void deleteCars() {
     }
     carCount--;
     cout << "Car deleted successfully!" << endl;
-    adminMenu(); 
+    adminMenu();
 }
 
 void updateCarNames() {
     system("cls");
     cout << "Enter the number of the car to update (1-" << carCount << "): ";
     int carNumber;
-    cin >> carNumber;
-
-    if (carNumber < 1 || carNumber > carCount) {
-        cout << "Invalid selection." << endl;
-        updateCarNames(); 
-        return;
+    while (true) {
+        if (cin >> carNumber && isValidCarNumber(carNumber, carCount)) {
+            break;
+        } else {
+            displayInvalidInputMessage();
+            cin.clear();
+            cin.ignore(10000, '\n');
+        }
     }
 
     cout << "Enter new car name: ";
@@ -187,16 +226,25 @@ void updateCarNames() {
 void setRates() {
     system("cls");
     for (int i = 0; i < carCount; i++) {
+        float rate;
         cout << "Enter rate for " << cars[i] << ": ";
-        cin >> rates[i];
+        while (true) {
+            if (cin >> rate && rate >= 0) {
+                break;
+            } else {
+                displayInvalidInputMessage();
+                cin.clear();
+                cin.ignore(10000, '\n');
+            }
+        }
+        rates[i] = rate;
     }
 
     cout << "Rates updated successfully!" << endl;
-    adminMenu(); 
+    adminMenu();
 }
 
 void calculateTotalCost() {
-    system("cls");
     if (carCount == 0) {
         cout << "No cars available for rent." << endl;
         userMenu();
@@ -205,20 +253,70 @@ void calculateTotalCost() {
 
     cout << "Select a car to rent (1-" << carCount << "): ";
     int carNumber;
-    cin >> carNumber;
-
-    if (carNumber < 1 || carNumber > carCount) 
-    {
-        cout << "Invalid selection. Please choose a valid car." << endl;
-        calculateTotalCost(); 
-        return;
+    while (true) {
+        if (cin >> carNumber && isValidCarNumber(carNumber, carCount)) {
+            break;
+        } else {
+            displayInvalidInputMessage();
+            cin.clear();
+            cin.ignore(10000, '\n');
+        }
     }
 
     int hours;
     cout << "Enter number of hours: ";
-    cin >> hours;
+    while (true) {
+        if (cin >> hours && isValidHours(hours)) {
+            break;
+     
+    }
 
     float totalCost = rates[carNumber - 1] * hours;
     cout << "Total cost for renting " << cars[carNumber - 1] << " for " << hours << " hours: Rs" << totalCost << endl;
-    userMenu(); 
+    userMenu();
+}
+
+void viewRentalHistory() {
+    system("cls");
+    cout << "Rental History: " << endl;
+    if (rentalHistoryCount == 0) {
+        cout << "No rentals found." << endl;
+    } else {
+        for (int i = 0; i < rentalHistoryCount; i++) {
+            cout << rentalHistory[i].carName << " | Hours: " << rentalHistory[i].hoursRented << " | Total Cost: Rs" << rentalHistory[i].totalCost << endl;
+        }
+    }
+    cout << "Press 1 to return to admin menu or 2 to return to user menu: ";
+    int returnOption;
+    while (true) {
+        if (cin >> returnOption && (returnOption == 1 || returnOption == 2)) {
+            break;
+        } else {
+            displayInvalidInputMessage();
+            cin.clear();
+            cin.ignore(10000, '\n');
+        }
+    }
+
+    if (returnOption == 1) {
+        adminMenu();
+    } else {
+        userMenu();
+    }
+}
+
+void displayInvalidInputMessage() {
+    cout << "Invalid input, please try again." << endl;
+}
+
+bool isValidOption(int option, int maxOption) {
+    return option > 0 && option <= maxOption;
+}
+
+bool isValidCarNumber(int carNumber, int maxCarCount) {
+    return carNumber > 0 && carNumber <= maxCarCount;
+}
+
+bool isValidHours(int hours) {
+    return hours > 0;
 }
